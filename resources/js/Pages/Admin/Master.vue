@@ -32,7 +32,9 @@
                         <div class="col-md-8">
                                 <div class="card">
                                         <div class="card-header bg-primary">
-                                            <slot name="header"/>
+                                                <h3 class="text-white">
+                                                        <slot name="header"/>
+                                                </h3>
                                         </div>
                                         <div class="card-body">
                                             <slot name="body"/>
@@ -45,5 +47,25 @@
 <script>
 export default {
     name: "Master",
+    watch: {
+            '$page.props.success': function(value){
+                    this.$toast.success(value, {
+                            position: "top-right",
+                            duration: 2000,
+                    })
+            },
+            '$page.props.info': function(value){
+                    this.$toast.success(value, {
+                            position: "top-right",
+                            duration: 2000,
+                    })
+            },
+            '$page.props.error': function(value){
+                    this.$toast.success(value, {
+                            position: "top-right",
+                            duration: 2000,
+                    })
+            }
+    }
 }
 </script>

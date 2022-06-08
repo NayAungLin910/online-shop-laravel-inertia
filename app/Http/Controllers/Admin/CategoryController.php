@@ -17,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $cat = Category::latest()->paginate(2);    
+        return Inertia::render("Admin/Category/Index", ['cat' => $cat]);
     }
 
     /**
@@ -46,7 +47,7 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => $slug,
         ]);
-        return redirect()->back();
+        return redirect()->back()->with('success', "Category Created Successfully !");
     }
 
     /**
@@ -91,6 +92,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Category::where('id', $id)->delete();
+        return redirect()->back()->with('success', "Category has been deleted!");
     }
 }

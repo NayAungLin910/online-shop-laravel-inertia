@@ -1,9 +1,12 @@
 <template>
     <Master>
         <template v-slot:header>
-            <h3 class="text-white">Create Category</h3>
+            Create Category
         </template>
         <template v-slot:body>
+            <inertia-link href="/admin/category" class="btn btn-sm btn-dark">
+                Back
+            </inertia-link>
             <form @submit.prevent="store">
                 <div class="form-group">
                     <label for="">Enter Name</label>
