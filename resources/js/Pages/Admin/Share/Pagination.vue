@@ -21,21 +21,10 @@
             <span class="sr-only">Next</span>
         </inertia-link>
     </li>
-    <!-- <li class="page-item active">
-      <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">
-        <i class="fa fa-angle-right"></i>
-        <span class="sr-only">Next</span>
-      </a>
-    </li> -->
   </ul>
 </nav>
 </template>
 <script>
-import { Link } from '@inertiajs/inertia-vue3';
 export default {
     name: "Pagination",
     props: {

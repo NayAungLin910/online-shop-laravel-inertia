@@ -22,7 +22,6 @@ class ProductFactory extends Factory
             'description' => $this->faker->text(),
             'view_count' => 100,
             'price' => 100,
-            'qty' => 100,
         ];
     }
 }

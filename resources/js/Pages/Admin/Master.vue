@@ -1,7 +1,7 @@
 <template>
     <div class="container">
                 <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <div class="card">
                                         <div class="card-body">
                                                 <ul class="list-group">
@@ -10,26 +10,26 @@
                                                                         Admin Management
                                                                 </li>
                                                         </a>
-                                                        <a>
+                                                        <inertia-link href="/admin/category">
                                                                 <li class="list-group-item">
                                                                         Category
                                                                 </li>
-                                                        </a>
-                                                        <a>
+                                                        </inertia-link>
+                                                        <inertia-link href="/admin/product">
                                                                 <li class="list-group-item">
                                                                         Product
                                                                 </li>
-                                                        </a>
-                                                        <a>
+                                                        </inertia-link>
+                                                        <inertia-link>
                                                                 <li class="list-group-item">
                                                                         Order
                                                                 </li>
-                                                        </a>
+                                                        </inertia-link>
                                                 </ul>
                                         </div>
                                 </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                                 <div class="card">
                                         <div class="card-header bg-primary">
                                                 <h3 class="text-white">

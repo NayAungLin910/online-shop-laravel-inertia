@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +18,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $cat = Category::latest()->paginate(2);    
-        return Inertia::render("Admin/Category/Index", ['cat' => $cat]);
+        $products = Product::latest()->paginate(10);
+        return Inertia::render("Admin/Product/Index", ["products" => $products]);
     }
 
     /**
@@ -28,7 +29,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render("Admin/Category/Create");
+        $cat = Category::all();
+        return Inertia::render("Admin/Product/Create", ["cat" => $cat]);
     }
 
     /**
@@ -38,16 +40,29 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $request->validate([
+            'category_id' => 'required',
             'name' => 'required',
+            'image' => 'required|mimes:png,jpg,jpeg',
+            'price' => 'required',
+            'description' => 'required',
         ]);
-        $slug = uniqid() . Str::slug($request->name);
-        Category::create([
-            'name' => $request->name,
-            'slug' => $slug,
+        // store
+        $file = $request->file('image');
+        $name = uniqid() . $file->getClientOriginalName();
+        $file->move(public_path("/image"), $name);
+        $image_name = "image/" . $name;
+        Product::create([
+            "slug" => Str::slug(uniqid() . $request->name),
+            "name" => $request->name,
+            "category_id" => $request->category_id,
+            "image" => $image_name,
+            "description" => $request->description,
+            "price" => $request->price,
+            "view_count" => 0,
         ]);
-        return redirect()->back()->with('success', "Category Created Successfully !");
+        return redirect()->back()->with("success", "Product Created Successfully !");
     }
 
     /**
@@ -69,11 +84,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $cat = Category::find($id);
-        if(!$cat){
-            return redirect()->back()->with("info", "Category not found!");
-        }
-        return Inertia::render("Admin/Category/Edit", ["cat" => $cat]);
+        //
     }
 
     /**
@@ -85,15 +96,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
-        $slug = Str::slug(uniqid() . $request->name);
-        Category::where('id', $id)->update([
-            "name" => $request->name,
-            "slug" => $slug,
-        ]);
-        return redirect()->back()->with("success", "Category Updated Successfully !");
+        //
     }
 
     /**
@@ -104,7 +107,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::where('id', $id)->delete();
-        return redirect()->back()->with('success', "Category has been deleted!");
+        //
     }
 }

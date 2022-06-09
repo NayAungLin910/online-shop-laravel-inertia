@@ -52,7 +52,12 @@ export default {
     },
     methods: {
         store(){
-            this.loading = true;    
+            this.loading = true;
+            setTimeout(() => {
+                if(this.errors){
+                    this.loading = false;
+                }
+            }, 500);
             this.$inertia.post('/admin/category', {name:this.name}, {
                 onSuccess:() => {
                     this.name = "";
@@ -60,6 +65,6 @@ export default {
                 },
             });
         }
-    }
+    },
 }
 </script>

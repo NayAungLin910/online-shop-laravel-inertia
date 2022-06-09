@@ -1,30 +1,46 @@
 <template>
     <Master>
         <template v-slot:header>
-            All categories
+            All Products
         </template>
         <template v-slot:body>
-            <inertia-link href="/admin/category/create" class="btn btn-sm btn-primary">
+            <inertia-link href="/admin/product/create" class="btn btn-sm btn-primary">
                 Create
             </inertia-link>
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>Image</th>
                         <th>Name</th>
+                        <th>Price</th>
                         <th>Option</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="c in cat.data" :key="c.id">
-                        <td>{{ c.name  }}</td>
+                    <tr v-for="c in products.data" :key="c.id">
                         <td>
-                            <inertia-link :href="`/admin/category/${c.id}/edit`" class="btn btn-sm btn-primary">Edit</inertia-link>
+                            <img :src="`/${c.image}`" width="70" style="border-radius:20%" alt="">
+                        </td>
+                        <td>{{ c.name  }}</td>
+                        <td>{{ c.price }}</td>
+                        <td>
+                            <inertia-link
+                              :href="`/admin/product/${c.id}/edit`" 
+                              class="btn btn-sm btn-primary"
+                            >
+                                Edit
+                            </inertia-link>
+                            <inertia-link
+                              class="btn btn-sm btn-success"
+                            >
+                                Detail
+                            </inertia-link>
                             <span @click="destroy(c.id)" class="btn btn-sm btn-danger">Delete</span>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <Pagination :data="cat.links" />
+            <Pagination :data="products.links" />
         </template>
     </Master>
 </template>
@@ -35,13 +51,13 @@ export default {
     name: "Index",
     components: { Master, Pagination },
     props: {
-        cat: Object,
+        products: Object,
     },
     methods: {
         destroy(id){
             if(confirm('Are you share about deleting?')){
                 const data = { id, _method: "DELETE" };
-                this.$inertia.delete("/admin/category/" + id, data);
+                this.$inertia.delete("/admin/product/" + id, data);
             }
         }
     }
