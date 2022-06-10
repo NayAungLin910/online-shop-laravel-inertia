@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Psy\Readline\Hoa\Console;
 
 class ProductController extends Controller
 {
@@ -73,7 +75,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $p  =  Product::where("id", $id)->with("category")->first();
+        return Inertia::render("Admin/Product/Detail", ["product" => $p]);
     }
 
     /**
@@ -84,7 +87,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        $cat = Category::all();
+        return Inertia::render("Admin/Product/Edit", ["product" => $product, "cat" => $cat]);
     }
 
     /**
@@ -96,7 +101,37 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'category_id' => 'required',
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+        ]); 
+
+        $p = Product::where('id', $id);
+         if($request->file('image')){
+             $request->validate([
+                'image' => 'mimes:png,jpg,jpeg',
+             ]);
+             File::delete($p->first()->image);
+             $f = $request->file('image');
+             $name = uniqid() . $f->getClientOriginalName();
+             $image_path = "image/" . $name;
+             $f->move(public_path('/image'), $name);
+         }else{
+             $image_path = $p->first()->image;
+         }
+
+         $p->update([
+            "slug" => Str::slug(uniqid() . $request->name),
+            "name" => $request->name,
+            "category_id" => $request->category_id,
+            "image" => $image_path,
+            "description" => $request->description,
+            "price" => $request->price,
+            "view_count" => 0,
+        ]);
+        return redirect()->back()->with("success", "Product Updated Successfully!");
     }
 
     /**
@@ -107,6 +142,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $p  = Product::where('id', $id);
+
+        File::delete($p->first()->image);
+        $p->delete();
+
+        return redirect()->back()->with("success", "Product Deleted Successfully !");
     }
 }

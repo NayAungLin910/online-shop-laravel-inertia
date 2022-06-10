@@ -4,7 +4,7 @@
             Create Product
         </template>
         <template v-slot:body>
-            <inertia-link href="/admin/category" class="btn btn-sm btn-dark">
+            <inertia-link href="/admin/product" class="btn btn-sm btn-dark">
                 Back
             </inertia-link>
             <form @submit.prevent="store" enctype="multipart/form-data">
@@ -95,7 +95,7 @@
 <script>
 import Master from '../Master.vue'
 export default {
-    name: "create-category",
+    name: "create-product",
     components: { Master },
     props: {
         errors: Object,

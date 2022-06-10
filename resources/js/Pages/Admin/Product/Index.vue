@@ -32,6 +32,7 @@
                             </inertia-link>
                             <inertia-link
                               class="btn btn-sm btn-success"
+                              :href="`/admin/product/${c.id}`"
                             >
                                 Detail
                             </inertia-link>

@@ -55,13 +55,13 @@ export default {
                     })
             },
             '$page.props.info': function(value){
-                    this.$toast.success(value, {
+                    this.$toast.info(value, {
                             position: "top-right",
                             duration: 2000,
                     })
             },
             '$page.props.error': function(value){
-                    this.$toast.success(value, {
+                    this.$toast.error(value, {
                             position: "top-right",
                             duration: 2000,
                     })
