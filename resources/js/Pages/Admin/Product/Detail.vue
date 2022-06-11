@@ -4,6 +4,7 @@
             Product Detail
         </template>
         <template v-slot:body>
+            <inertia-link :href="`/admin/product`" class="btn btn-sm btn-dark">Back</inertia-link>
             <table class="table table-striped">
                 <thead>
                     <tr>

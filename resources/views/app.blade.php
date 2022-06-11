@@ -11,6 +11,23 @@
           href="https://demos.creative-tim.com/argon-dashboard/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/argon-design-system-free@1.2.0/assets/css/argon-design-system.min.css">
+          <style>
+            #header {
+                    height: 60vh;
+                    background: linear-gradient(#007bff, white);
+                    border-bottom-left-radius: 10%;
+                    border-bottom-right-radius: 10%;
+            }
+
+            #header .nav-link {
+                    color: white !important;
+            }
+
+            #header img {
+                    width: 60% !important;
+
+            }
+    </style>
     @inertiaHead
   </head>
   <body>
