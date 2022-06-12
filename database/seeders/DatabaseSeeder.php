@@ -21,14 +21,12 @@ class DatabaseSeeder extends Seeder
             "name" => "Admin",
             "email" => "admin@gmail.com",
             "password" => Hash::make("password"),
-            "image" => "image/user.png",
             "role" => "admin",
         ]);
         User::create([
             "name" => "Nay Aung Lin",
             "email" => "nayaunglin@gmail.com",
             "password" => Hash::make("password"),
-            "image" => "image/user_nal.png",
         ]);
 
         Category::create([

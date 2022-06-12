@@ -3,7 +3,7 @@
         <!-- Header -->
         <div class="container-fluid" id="header">
                 <nav class="navbar navbar-expand-lg">
-                        <a class="navbar-brand text-white" href="#">MM-Shop</a>
+                        <inertia-link class="navbar-brand text-white" :href="`/`">MM-Shop</inertia-link>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -25,10 +25,15 @@
                                                         User
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                        <a class="dropdown-item" href="#">Login</a>
-                                                        <a class="dropdown-item" href="#">Register</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="#">Welcome Guy!</a>
+                                                        <div v-if="$page.props.auth == null">
+                                                                <inertia-link class="dropdown-item" :href="`/login`">Login</inertia-link>
+                                                                <inertia-link class="dropdown-item" :href="`/register`">Register</inertia-link>
+                                                        </div>
+                                                        <div v-if="$page.props.auth !== null">
+                                                                <a class="dropdown-item" href="#">Welcome {{ $page.props.auth.name }}</a>
+                                                                <inertia-link class="dropdown-item" :href="`/logout`">Logout</inertia-link>
+                                                        </div>
+                                                       
                                                 </div>
                                         </li>
                                         <li class="nav-item">
@@ -61,8 +66,11 @@
                                                 recusandae quasi tempore placeat aliquam autem, a soluta nisi totam
                                                 temporibus dolorem!
                                         </p>
-                                        <a href="" class="btn btn-outline-primary">SignUp</a>
-                                        <a href="" class="btn btn-primary">Login</a>
+                                        <div v-if="$page.props.auth == null">
+                                                <inertia-link :href="`/register`" class="btn btn-outline-primary">Register</inertia-link>
+                                                <inertia-link :href="`/login`" class="btn btn-primary">Login</inertia-link>
+                                        </div>
+                                        <h1 v-if="$page.props.auth !== null">Welcome {{ $page.props.auth.name }}</h1>
                                 </div>
                                 <div class="col-md-6 text-center">
                                         <img class=""
@@ -126,9 +134,36 @@
 <script>
 export default {
     name: "Master",
+    created(){
+        const {
+                success,
+                info,
+                error,
+        }  = this.$page.props;
+        if(success){
+                this.shown == true;
+                this.$toast.success(success, {
+                            position: "top-right",
+                            duration: 2000,
+                });
+        }else if(info){
+                this.shown == true;
+                this.$toast.info(info, {
+                            position: "top-right",
+                            duration: 2000,
+                });
+        }else if(error){
+                this.shown == true;
+                this.$toast.error(value, {
+                            position: "top-right",
+                            duration: 2000,
+                });
+        } 
+    },
     data(){
         return{
                 search: "",
+                shown: false,
         }
     },
     methods: {
@@ -137,6 +172,26 @@ export default {
                         this.$inertia.get("/product/search/" + this.search);
                 }
         }
-    }
+    },
+//     watch: {
+//             '$page.props.success': function(value){
+//                     this.$toast.success(value, {
+//                             position: "top-right",
+//                             duration: 2000,
+//                     })
+//             },
+//             '$page.props.info': function(value){
+//                     this.$toast.info(value, {
+//                             position: "top-right",
+//                             duration: 2000,
+//                     })
+//             },
+//             '$page.props.error': function(value){
+//                     this.$toast.error(value, {
+//                             position: "top-right",
+//                             duration: 2000,
+//                     })
+//             }
+//     } // it seems like you don't need it
 }
 </script>
