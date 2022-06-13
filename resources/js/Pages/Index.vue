@@ -24,11 +24,14 @@
                                                                                                             {{ p.price }}
                                                                                                         </a>
                                                                                                 </div>
-                                                                                                <div class="col-md-4">
+                                                                                                <div class="col-md-8">
                                                                                                         <a href=""
                                                                                                                 class="badge badge-warning">
                                                                                                             {{ p.category.name }}
                                                                                                         </a>
+                                                                                                        <inertia-link :href="`add/cart/${p.id}`" class="float-right">
+                                                                                                                <i class="fas fa-shopping-cart text-danger"></i>
+                                                                                                        </inertia-link>
                                                                                                 </div>
                                                                                         </div>
 

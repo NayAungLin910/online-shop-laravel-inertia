@@ -18,6 +18,7 @@ class CreateProductOrdersTable extends Migration
             $table->foreignId("user_id")->constrained()->onDelete("cascade");
             $table->foreignId("product_id")->constrained()->onDelete("cascade");
             $table->integer("qty");
+            $table->string("phone");
             $table->string("address");
             $table->enum("status", ["pending", "complete"])->default("pending");
             $table->timestamps();

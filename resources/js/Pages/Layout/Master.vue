@@ -37,11 +37,12 @@
                                                 </div>
                                         </li>
                                         <li class="nav-item">
-                                                <a class="nav-link disabled" href="#" tabindex="-1"
-                                                        aria-disabled="true">
+                                                <inertia-link class="nav-link " :href="`/cart`">
                                                         Cart
-                                                        <small class="badge badge-danger">7</small>
-                                                </a>
+                                                        <small class="badge badge-danger">
+                                                                {{ $page.props.cart_count }}
+                                                        </small>
+                                                </inertia-link>
                                         </li>
                                 </ul>
                                 <form class="form-inline" @submit.prevent="searchProduct">
@@ -134,36 +135,30 @@
 <script>
 export default {
     name: "Master",
-    created(){
-        const {
-                success,
-                info,
-                error,
-        }  = this.$page.props;
-        if(success){
-                this.shown == true;
-                this.$toast.success(success, {
-                            position: "top-right",
-                            duration: 2000,
-                });
-        }else if(info){
-                this.shown == true;
-                this.$toast.info(info, {
-                            position: "top-right",
-                            duration: 2000,
-                });
-        }else if(error){
-                this.shown == true;
-                this.$toast.error(value, {
-                            position: "top-right",
-                            duration: 2000,
-                });
-        } 
-    },
     data(){
         return{
                 search: "",
                 shown: false,
+        }
+    },
+    created(){
+        if(this.$page.props.success){
+                this.$toast.success(this.$page.props.success, {
+                        position: "top-right",
+                        duration: 2000,
+                });
+        }
+        if(this.$page.props.info){
+                this.$toast.info(this.$page.props.info, {
+                        position: "top-right",
+                        duration: 2000,
+                });
+        }
+        if(this.$page.props.error){
+                this.$toast.error(this.$page.props.error, {
+                        position: "top-right",
+                        duration: 2000,
+                });
         }
     },
     methods: {
@@ -173,25 +168,25 @@ export default {
                 }
         }
     },
-//     watch: {
-//             '$page.props.success': function(value){
-//                     this.$toast.success(value, {
-//                             position: "top-right",
-//                             duration: 2000,
-//                     })
-//             },
-//             '$page.props.info': function(value){
-//                     this.$toast.info(value, {
-//                             position: "top-right",
-//                             duration: 2000,
-//                     })
-//             },
-//             '$page.props.error': function(value){
-//                     this.$toast.error(value, {
-//                             position: "top-right",
-//                             duration: 2000,
-//                     })
-//             }
-//     } // it seems like you don't need it
+    watch: {
+            '$page.props.success': function(value){
+                    this.$toast.success(value, {
+                            position: "top-right",
+                            duration: 2000,
+                    })
+            },
+            '$page.props.info': function(value){
+                    this.$toast.info(value, {
+                            position: "top-right",
+                            duration: 2000,
+                    })
+            },
+            '$page.props.error': function(value){
+                    this.$toast.error(value, {
+                            position: "top-right",
+                            duration: 2000,
+                    })
+            }
+    } // it is not required since the creation alone can handle redirect()->back() sesssoin flusing
 }
 </script>

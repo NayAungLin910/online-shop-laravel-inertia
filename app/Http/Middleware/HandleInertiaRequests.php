@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductCart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
@@ -44,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             'error' => fn() => $request->session()->get("error"),
             'category' => fn() => Category::withCount('product')->get(),
             'auth' => fn() => Auth::user() ? Auth::user() : null,
+            'cart_count' => fn() => Auth::check() ? ProductCart::where("user_id", Auth::user()->id)->count() : 'need login',
         ]);
     }
 }
