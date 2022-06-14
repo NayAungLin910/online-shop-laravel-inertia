@@ -81,4 +81,8 @@ class PageController extends Controller
         $cart->delete();
         return redirect("/")->with("success", "Check Out Successed ! We will call back soon !");
     }
+
+    public function showProfile(){
+        return Inertia::render("Profile");
+    }
 }

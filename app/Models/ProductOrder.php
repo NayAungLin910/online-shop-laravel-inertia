@@ -10,4 +10,8 @@ class ProductOrder extends Model
     use HasFactory;
 
     protected $fillable = ['user_id', 'product_id', 'qty', 'address', 'phone'];
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
 }

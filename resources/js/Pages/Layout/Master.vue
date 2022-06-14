@@ -86,15 +86,25 @@
                 <div class="row">
                         <!-- For Category and Information -->
                         <div class="col-md-4">
-                                <div class="card">
+                                <div class="card" v-show="$page.props.auth">
                                         <div class="card-body">
                                                 <ul class="list-group">
-                                                        <li class="list-group-item bg-dark text-white">
-                                                                Your Order List
-                                                        </li>
-                                                        <li class="list-group-item bg-danger text-white">
-                                                                Your Profile Info
-                                                        </li>
+                                                        <inertia-link :href="`/order/pending`">
+                                                                <li class="list-group-item bg-dark text-white">
+                                                                        Pending Order List
+                                                                </li>
+                                                        </inertia-link>
+                                                        <inertia-link :href="`/order/complete`">
+                                                                <li class="list-group-item bg-dark text-white">
+                                                                        Completed Order List
+                                                                </li>
+                                                        </inertia-link>
+                                                        <inertia-link :href="`/profile`">
+                                                                <li class="list-group-item bg-danger text-white">
+                                                                        Your Profile
+                                                                </li>
+                                                        </inertia-link>
+                                                        
                                                 </ul>
                                         </div>
                                 </div>
@@ -168,25 +178,25 @@ export default {
                 }
         }
     },
-    watch: {
-            '$page.props.success': function(value){
-                    this.$toast.success(value, {
-                            position: "top-right",
-                            duration: 2000,
-                    })
-            },
-            '$page.props.info': function(value){
-                    this.$toast.info(value, {
-                            position: "top-right",
-                            duration: 2000,
-                    })
-            },
-            '$page.props.error': function(value){
-                    this.$toast.error(value, {
-                            position: "top-right",
-                            duration: 2000,
-                    })
-            }
-    } // it is not required since the creation alone can handle redirect()->back() sesssoin flusing
+//     watch: {
+//             '$page.props.success': function(value){
+//                     this.$toast.success(value, {
+//                             position: "top-right",
+//                             duration: 2000,
+//                     })
+//             },
+//             '$page.props.info': function(value){
+//                     this.$toast.info(value, {
+//                             position: "top-right",
+//                             duration: 2000,
+//                     })
+//             },
+//             '$page.props.error': function(value){
+//                     this.$toast.error(value, {
+//                             position: "top-right",
+//                             duration: 2000,
+//                     })
+//             }
+//     } // it is not required since the creation alone can handle redirect()->back() sesssoin flusing
 }
 </script>

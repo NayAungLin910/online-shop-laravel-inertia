@@ -16,10 +16,17 @@ Route::get("product/category/{slug}", [App\Http\Controllers\PageController::clas
 Route::get("product/search/{search}", [App\Http\Controllers\PageController::class, "searchProduct"],);
 
 // User Auth Route
-Route::get("add/cart/{id}", [App\Http\Controllers\PageController::class, "addToCart"]);
-Route::get("/cart", [App\Http\Controllers\PageController::class, "viewCart"]);
-Route::get("/checkout", [App\Http\Controllers\PageController::class, "viewCheckOut"]);
-Route::post("/checkout", [App\Http\Controllers\PageController::class, "checkOut"]);
+Route::middleware(["AuthUser"])->group(function(){
+     Route::get("add/cart/{id}", [App\Http\Controllers\PageController::class, "addToCart"]);
+     Route::get("/cart", [App\Http\Controllers\PageController::class, "viewCart"]);
+     Route::get("/checkout", [App\Http\Controllers\PageController::class, "viewCheckOut"]);
+     Route::post("/checkout", [App\Http\Controllers\PageController::class, "checkOut"]);
+     Route::get("/order/pending", [\App\Http\Controllers\OrderController::class, "pending"]);
+     Route::get("/order/complete", [\App\Http\Controllers\OrderController::class, "complete"]);
+     Route::get("/profile", [\App\Http\Controllers\PageController::class, "showProfile"]);
+});
+
+
 
 // Admin
 Route::get("admin/login", [App\Http\Controllers\Admin\AuthController::class, 'showLogin']);
