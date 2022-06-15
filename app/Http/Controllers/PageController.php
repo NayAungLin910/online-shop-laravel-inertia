@@ -9,6 +9,7 @@ use App\Models\ProductOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Prophecy\Doubler\Generator\Node\ReturnTypeNode;
 
@@ -84,5 +85,39 @@ class PageController extends Controller
 
     public function showProfile(){
         return Inertia::render("Profile");
+    }
+    public function updateProfile(Request $request){
+
+        $user = Auth::user();
+
+        $request->validate([
+            "name" => "required",
+            "email" => "required",
+        ]);
+
+        if($request->email !==  $user->email){
+            $request->validate([
+                "email" => "unique:users",
+            ]);
+        }
+
+        if($request->password){
+            $request->validate([
+                "password" => "min:5",
+            ]);
+            $user->update([
+                "name" => $request->name,
+                "email" => $request->email,
+                "password" => Hash::make($request->password),
+            ]);
+            Auth::logout();
+            return redirect("/login")->with("success", "Profile Updated Successfully! Please Login Again!");
+        }else{
+            $user->update([
+                "name" => $request->name,
+                "email" => $request->email,
+            ]);
+            return redirect()->back()->with("success", "Profile Updated Successfully!");
+        }
     }
 }

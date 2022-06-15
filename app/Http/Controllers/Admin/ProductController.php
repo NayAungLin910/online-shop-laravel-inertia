@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -148,5 +150,40 @@ class ProductController extends Controller
         $p->delete();
 
         return redirect()->back()->with("success", "Product Deleted Successfully !");
+    }
+
+    public function pendingOrder(){
+        $order = ProductOrder::with("product", "user")->where("status", "pending")->latest()->paginate(20);
+        return Inertia::render("Admin/Order", ["order" => $order]);   
+    }
+
+    public function pendingOrderByDate($start_date, $end_date){
+        $order = ProductOrder::with("product", "user")
+                 ->where("status", "pending")
+                 ->whereBetween("created_at", [
+                    $start_date . " 00:00:00", $end_date . " 23:59:59" 
+                 ])
+                 ->latest()
+                 ->paginate(20);
+        return Inertia::render("Admin/Order", ["order" => $order, "start_date" => $start_date, "end_date" => $end_date]);
+    }
+
+    public function successOrder(){
+        $order = ProductOrder::with("product", "user")->where("status", "complete")->latest()->paginate(20);
+        return Inertia::render("Admin/Order", ["order" => $order]);  
+    }
+
+    public function makeSuccess($id){
+        ProductOrder::where("id", $id)->update([
+            "status" => "complete"
+        ]);
+        return redirect("admin/order/pending")->with("successC", "Order Completed!");
+    }
+
+    public function makeSuccessByDate($start_date, $end_date, $id){
+        ProductOrder::where("id", $id)->update([
+            "status" => "complete"
+        ]);
+        return redirect("admin/order/pending"."/".$start_date."/".$end_date)->with("successC", "Order Completed!");
     }
 }

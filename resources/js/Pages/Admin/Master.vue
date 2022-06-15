@@ -20,11 +20,16 @@
                                                                         Product
                                                                 </li>
                                                         </inertia-link>
-                                                        <inertia-link>
+                                                        <inertia-link :href="`/admin/order/pending`">
                                                                 <li class="list-group-item">
-                                                                        Order
+                                                                        Pending Order
                                                                 </li>
                                                         </inertia-link>
+                                                        <inertia-link :href="`/admin/order/success`">
+                                                                <li class="list-group-item">
+                                                                        Completed Order
+                                                                </li>
+                                                        </inertia-link> 
                                                 </ul>
                                         </div>
                                 </div>
@@ -47,25 +52,47 @@
 <script>
 export default {
     name: "Master",
+    created(){
+        const {successC, infoC, errorC} = this.$page.props;
+
+        if(successC){
+                this.$toast.success(successC, {
+                        position: "top-right",
+                        duration: 2500,
+                });
+        }
+        if(infoC){
+                this.$toast.info(infoC, {
+                        position: "top-right",
+                        duration: 2500,
+                });
+        }
+        if(errorC){
+                this.$toast.error(errorC, {
+                        position: "top-right",
+                        duration: 2500,
+                });
+        }
+    },
     watch: {
             '$page.props.success': function(value){
                     this.$toast.success(value, {
                             position: "top-right",
-                            duration: 2000,
+                            duration: 2500,
                     })
             },
             '$page.props.info': function(value){
                     this.$toast.info(value, {
                             position: "top-right",
-                            duration: 2000,
+                            duration: 2500,
                     })
             },
             '$page.props.error': function(value){
                     this.$toast.error(value, {
                             position: "top-right",
-                            duration: 2000,
+                            duration: 2500,
                     })
             }
-    }
+    },
 }
 </script>

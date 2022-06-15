@@ -24,6 +24,7 @@ Route::middleware(["AuthUser"])->group(function(){
      Route::get("/order/pending", [\App\Http\Controllers\OrderController::class, "pending"]);
      Route::get("/order/complete", [\App\Http\Controllers\OrderController::class, "complete"]);
      Route::get("/profile", [\App\Http\Controllers\PageController::class, "showProfile"]);
+     Route::post("/profile", [\App\Http\Controllers\PageController::class, "updateProfile"]);
 });
 
 
@@ -35,6 +36,11 @@ Route::middleware(['Admin'])->prefix('admin')->namespace('App\Http\Controllers\A
      Route::get('/dashboard', [App\Http\Controllers\Admin\AuthController::class, "dashboard"]);
      Route::resource('/category', CategoryController::class);
      Route::resource('/product', ProductController::class);
+     Route::get("/order/pending", [\App\Http\Controllers\Admin\ProductController::class, "pendingOrder"]);
+     Route::get("/order/success", [\App\Http\Controllers\Admin\ProductController::class, "successOrder"]);
+     Route::get("/order/success/{id}", [\App\Http\Controllers\Admin\ProductController::class, "makeSuccess"]);
+     Route::get("/order/success/{start_date}/{end_date}/{id}", [\App\Http\Controllers\Admin\ProductController::class, "makeSuccessByDate"]);
+     Route::get("/order/pending/{start_date}/{end_date}", [\App\Http\Controllers\Admin\ProductController::class, "pendingOrderByDate"]);
 });
 
 Route::get("/logout", [App\Http\Controllers\AuthController::class, "logout"]);

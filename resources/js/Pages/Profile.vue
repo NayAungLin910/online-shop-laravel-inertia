@@ -1,5 +1,8 @@
 <template>
     <Master>
+        <div class="alert alert-success" v-show="$page.props.success">
+            {{ $page.props.success }}
+        </div>
         <form @submit.prevent="changeProfile">
             <div class="form-group">
                 <label for="">Name</label>
@@ -32,7 +35,7 @@
             <div class="form-group">
                 <label for="">Password</label>
                 <input 
-                  type="text" 
+                  type="password" 
                   class="form-control border"
                   :class="{ 'border-danger': errors.password }"  
                   v-model="password"
@@ -83,7 +86,8 @@ export default {
         changeProfile(){
             const data = {
                 name: this.name, 
-                address: this.address,
+                email: this.email,
+                password: this.password,
             }
             this.$inertia.post("/profile", data, {
                 onStart: () => {
@@ -93,8 +97,6 @@ export default {
                     this.loading = false;
                 },
                 onSuccess:() => {
-                    this.phone = "";
-                    this.address = "";
                     this.loading = false;
                 }
             });
