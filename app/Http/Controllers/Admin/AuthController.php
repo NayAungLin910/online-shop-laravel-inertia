@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductOrder;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -29,7 +33,14 @@ class AuthController extends Controller
         }
     }
     public function dashboard(){
-        $user = Auth::user();
-        return Inertia::render("Admin/Dashboard", ["user" => $user]);
+        $data = [];
+
+        $data["category"] = Category::count();
+        $data["product"] = Product::count();
+        $data["pending"] = ProductOrder::where("status", "pending")->count();
+        $data["success"] = ProductOrder::where("status", "complete")->count();
+        $data["users"] = User::latest()->take(5)->get();
+
+        return Inertia::render("Admin/Dashboard", ["data" => $data]);
     }
 }

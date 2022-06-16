@@ -33,6 +33,8 @@
                     <tr>
                         <th>User</th>
                         <th>Product</th>
+                        <th>Phone</th>
+                        <th>Address</th>
                         <th>Option</th>
                     </tr>
                 </thead>
@@ -41,6 +43,12 @@
                         <td>{{ c.user.name  }}</td>
                         <td>
                             {{ c.product.name }}
+                        </td>
+                        <td>
+                            {{ c.phone }}
+                        </td>
+                        <td>
+                            {{ c.address }}
                         </td>
                         <td>
                             <inertia-link 
@@ -90,7 +98,7 @@ export default {
     },
     computed: {
         isSuccess(){
-                if(location.pathname == "/admin/order/success"){
+                if(location.pathname == "/admin/order/success" || location.pathname.includes("/admin/order/success")){
                         return true;  
                 }else{
                         return false;
@@ -102,17 +110,23 @@ export default {
             }else{
                 return false;
             }
-        }
+        },
     },
     watch: {
         "start_date": function(newDate){
-            if(this.end_date !== ""){
+            if(this.end_date !== "" && !this.isSuccess){
                 this.$inertia.get(`/admin/order/pending/${this.start_date}/${this.end_date}`);
+            }
+            if(this.end_date !== "" && this.isSuccess){
+                this.$inertia.get(`/admin/order/success/${this.start_date}/${this.end_date}`);
             }
         },
         "end_date": function(newData){
-            if(this.start_date !== ""){
+            if(this.start_date !== "" &&!this.isSuccess){
                 this.$inertia.get(`/admin/order/pending/${this.start_date}/${this.end_date}`);
+            }
+            if(this.start_date !== "" && this.isSuccess){
+                this.$inertia.get(`/admin/order/success/${this.start_date}/${this.end_date}`);
             }
         }
     }

@@ -173,6 +173,17 @@ class ProductController extends Controller
         return Inertia::render("Admin/Order", ["order" => $order]);  
     }
 
+    public function successOrderByDate($start_date, $end_date){
+        $order = ProductOrder::with("product", "user")
+                 ->where("status", "complete")
+                 ->whereBetween("created_at", [
+                    $start_date . " 00:00:00", $end_date . " 23:59:59" 
+                 ])
+                 ->latest()
+                 ->paginate(20);
+        return Inertia::render("Admin/Order", ["order" => $order, "start_date" => $start_date, "end_date" => $end_date]);
+    }
+
     public function makeSuccess($id){
         ProductOrder::where("id", $id)->update([
             "status" => "complete"

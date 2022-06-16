@@ -38,6 +38,7 @@ Route::middleware(['Admin'])->prefix('admin')->namespace('App\Http\Controllers\A
      Route::resource('/product', ProductController::class);
      Route::get("/order/pending", [\App\Http\Controllers\Admin\ProductController::class, "pendingOrder"]);
      Route::get("/order/success", [\App\Http\Controllers\Admin\ProductController::class, "successOrder"]);
+     Route::get("/order/success/{start_date}/{end_date}", [\App\Http\Controllers\Admin\ProductController::class, "successOrderByDate"]);
      Route::get("/order/success/{id}", [\App\Http\Controllers\Admin\ProductController::class, "makeSuccess"]);
      Route::get("/order/success/{start_date}/{end_date}/{id}", [\App\Http\Controllers\Admin\ProductController::class, "makeSuccessByDate"]);
      Route::get("/order/pending/{start_date}/{end_date}", [\App\Http\Controllers\Admin\ProductController::class, "pendingOrderByDate"]);

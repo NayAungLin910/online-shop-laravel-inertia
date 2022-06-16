@@ -10,6 +10,11 @@
                                                                         Admin Management
                                                                 </li>
                                                         </a>
+                                                        <inertia-link href="/admin/dashboard">
+                                                                <li class="list-group-item">
+                                                                        Dashboard
+                                                                </li>
+                                                        </inertia-link>
                                                         <inertia-link href="/admin/category">
                                                                 <li class="list-group-item">
                                                                         Category
